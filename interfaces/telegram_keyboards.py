@@ -1,11 +1,13 @@
+# interfaces/telegram_keyboards.py
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
 def get_main_menu_keyboard() -> ReplyKeyboardMarkup:
-    """Основное меню с кнопками внизу экрана"""
+    """Главное меню с 4 кнопками"""
     keyboard = [
-        [KeyboardButton(text="✅ Начать")],
-        [KeyboardButton(text="🔧 Админ-панель")],
-        [KeyboardButton(text="⏹ Отмена")]
+        [KeyboardButton(text="📝 Рег")],
+        [KeyboardButton(text="🔑 Логин")],
+        [KeyboardButton(text="📋 Мероприятия")],
+        [KeyboardButton(text="⚙️ Админ")]
     ]
     return ReplyKeyboardMarkup(
         keyboard=keyboard,
@@ -14,35 +16,37 @@ def get_main_menu_keyboard() -> ReplyKeyboardMarkup:
         input_field_placeholder="Выберите действие..."
     )
 
-def get_admin_menu_keyboard() -> ReplyKeyboardMarkup:
-    """Клавиатура админ-меню"""
-    keyboard = [
-        [KeyboardButton(text="📊 Статистика")],
-        [KeyboardButton(text="📋 Список участников")],
-        [KeyboardButton(text="📁 Информация о файле")],
-        [KeyboardButton(text="🚪 Выйти из админки")]
-    ]
-    return ReplyKeyboardMarkup(
-        keyboard=keyboard,
-        resize_keyboard=True,
-        one_time_keyboard=False
-    )
+def get_events_list_keyboard(events: list) -> InlineKeyboardMarkup:
+    """Динамическая клавиатура списка мероприятий"""
+    buttons = []
+    for event in events:
+        buttons.append([
+            InlineKeyboardButton(
+                text=event["name"],
+                callback_data=f"event_register_{event['id']}"
+            )
+        ])
+    
+    buttons.append([
+        InlineKeyboardButton(text="⬅️ Назад", callback_data="back_to_main")
+    ])
+    
+    return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 def get_confirmation_keyboard() -> InlineKeyboardMarkup:
-    """Inline-кнопки для подтверждения регистрации"""
-    keyboard = [
+    """Клавиатура подтверждения"""
+    return InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text="✅ Да, подтверждаю", callback_data="confirm_yes"),
-            InlineKeyboardButton(text="❌ Нет, отменить", callback_data="confirm_no")
+            InlineKeyboardButton(text="✅ Да", callback_data="confirm_yes"),
+            InlineKeyboardButton(text="❌ Нет", callback_data="confirm_no")
+        ],
+        [
+            InlineKeyboardButton(text="⬅️ Назад", callback_data="back_to_main")
         ]
-    ]
-    return InlineKeyboardMarkup(inline_keyboard=keyboard)
+    ])
 
-def get_cancel_only_keyboard() -> ReplyKeyboardMarkup:
-    """Клавиатура только с кнопкой отмены"""
-    keyboard = [[KeyboardButton(text="⏹ Отмена")]]
-    return ReplyKeyboardMarkup(
-        keyboard=keyboard,
-        resize_keyboard=True,
-        one_time_keyboard=True
-    )
+def get_back_keyboard() -> InlineKeyboardMarkup:
+    """Клавиатура с кнопкой 'Назад'"""
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="⬅️ Назад", callback_data="back_to_main")]
+    ])
