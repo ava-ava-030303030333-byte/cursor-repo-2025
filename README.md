@@ -1,1 +1,52 @@
-# cursor-repo-2025
+# Чатбот регистрации на мероприятие
+
+Проект Python чатбота для регистрации участников на мероприятие.
+
+## Функционал
+
+- Собирание данных: ФИО, email, телефон, название организации
+- Валидация email и телефона
+- Сохранение регистраций в JSON файл
+- Два модуля: консоль и Telegram бот
+
+## Архитектура проекта
+
+```
+event_registration_bot/
+├── config/
+│   └── settings.py          # Настройки приложения
+├── data/
+│   └── registrations.json   # JSON файл с регистрациями
+├── models/
+│   └── registration.py      # Модель данных регистрации
+├── validators/
+│   └── validators.py       # Функции валидации
+├── storage/
+│   └── json_storage.py     # Сохранение в JSON
+├── interfaces/
+│   ├── console_interface.py # Консоль
+│   └── telegram_bot.py     # Telegram бот
+├── requirements.txt     # Зависимости
+├── main.py              # Маин-скрипт
+└── README.md
+```
+
+## Установка
+
+```bash
+pip install -r requirements.txt
+```
+
+## Запуск
+
+На консоли:
+```bash
+python main.py
+```
+
+На Telegram (нужно указать токен в .env ныли в config/settings.py):
+Выберите опцию 2 в меню
+
+## Копирайт
+
+Чатбот регистрации на мероприятие. 2025.
